@@ -16,9 +16,12 @@
     "dash": true
   },
   "dependencies": {
+    "@libsql/client": "^0.15.2",
     "@radix-ui/react-slot": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.41.0",
     "isbot": "5.1.25",
     "lucide-react": "^0.487.0",
     "react": "19.0.0",
@@ -35,6 +38,7 @@
     "@types/node": "22.14.0",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.1",
+    "drizzle-kit": "^0.30.6",
     "tailwindcss": "4.1.1",
     "typescript": "5.8.2",
     "vite": "6.2.5",
@@ -47,7 +51,10 @@
     "dev": "react-router dev",
     "preview": "npm run build && vite preview",
     "typecheck": "npm run typegen && tsc -b",
-    "typegen": "wrangler types && react-router typegen"
+    "typegen": "wrangler types && react-router typegen",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "type": "module"
 }
