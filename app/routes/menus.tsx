@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/menus";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,12 +11,12 @@ export function loader({ context }: Route.LoaderArgs) {
   return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Menus({ loaderData }: Route.ComponentProps) {
   const { message } = loaderData;
   return (
     <div>
       <p>{message}</p>
-      <p>ホームページ</p>
+      <p>メニューページ</p>
     </div>
   );
 }
