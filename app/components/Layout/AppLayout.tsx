@@ -59,7 +59,9 @@ export default function AppLayout({
                 <NavLink
                   key={item.href}
                   to={item.href}
-                  className="flex flex-col items-center gap-x-2 rounded-full p-2 text-slate-700 hover:bg-slate-200 sm:flex-row"
+                  className={({ isActive }) =>
+                    `${isActive && "font-bold"} flex flex-col items-center gap-x-2 rounded-full p-2 hover:bg-slate-200 sm:flex-row`
+                  }
                 >
                   <item.icon className="size-5" />
                   <span className="text-xs sm:text-lg">{item.label}</span>
