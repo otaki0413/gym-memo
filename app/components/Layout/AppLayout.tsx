@@ -21,7 +21,7 @@ export default function AppLayout({
     },
     {
       href: "/menus",
-      label: "メニュー",
+      label: "マイメニュー",
       icon: List,
     },
     {
