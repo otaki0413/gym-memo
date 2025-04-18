@@ -1,6 +1,6 @@
+import { Link } from "react-router";
 import type { Route } from "./+types/training";
 import { DailyMenuSelection } from "~/components/Training/DailyMenuSelection";
-import { Link } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,10 +17,12 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function Training({ loaderData }: Route.ComponentProps) {
   const { message } = loaderData;
   return (
-    <div className="space-y-3 p-5">
-      <div className="text-2xl font-bold">本日のトレーニング</div>
+    <div className="space-y-3 p-3">
+      <div className="text-2xl font-semibold">本日のトレーニング</div>
       <div className="rounded-lg border bg-white p-4 shadow sm:p-6">
-        <h2 className="mb-2 text-base font-bold">⭐トレーニングのヒント⭐</h2>
+        <h2 className="mb-2 text-base font-semibold">
+          ⭐トレーニングのヒント⭐
+        </h2>
         <ul className="text-muted-foreground m-2 list-disc space-y-2 text-xs sm:text-base">
           <li>登録済みのマイメニューの中から選択できます。</li>
           <li>

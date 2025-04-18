@@ -84,7 +84,7 @@ export const DailyMenuSelection = () => {
           </div>
           <Button
             onClick={() => alert("TODO: 本日のメニューを登録します")}
-            className="h-10 w-full font-bold"
+            className="h-10 w-full font-semibold"
           >
             このメニューで開始する！
           </Button>

@@ -6,13 +6,13 @@ export default function MenuTabs() {
       <TabsList className="h-auto w-full justify-start rounded-none border-b bg-transparent p-0">
         <TabsTrigger
           value="all"
-          className="data-[state=active]:after:bg-primary relative rounded-none py-2 font-bold after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+          className="data-[state=active]:after:bg-primary relative rounded-none py-2 font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
         >
           すべて
         </TabsTrigger>
         <TabsTrigger
           value="fav"
-          className="data-[state=active]:after:bg-primary relative rounded-none py-2 font-bold after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+          className="data-[state=active]:after:bg-primary relative rounded-none py-2 font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
         >
           お気に入り
         </TabsTrigger>

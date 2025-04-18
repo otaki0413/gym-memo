@@ -36,16 +36,16 @@ export function MenuList({ initialMenus }: MenuListProps) {
   }
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       {menus.map((menu) => (
-        <Card key={menu.id} className="py-3">
-          <CardContent className="p-4">
-            <div className="flex items-start justify-between">
+        <Card key={menu.id} className="p-2">
+          <CardContent className="p-2">
+            <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold">{menu.name}</h3>
-                <p className="text-muted-foreground">
+                <div className="line-clamp-2 font-semibold">{menu.name}</div>
+                <div className="text-muted-foreground text-sm">
                   {menu.sets}セット × {menu.reps}回
-                </p>
+                </div>
               </div>
               <div className="flex gap-x-1">
                 <Button
