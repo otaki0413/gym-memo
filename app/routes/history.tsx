@@ -14,9 +14,12 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function History({ loaderData }: Route.ComponentProps) {
   const { message } = loaderData;
   return (
-    <div>
-      <p>{message}</p>
-      <p>履歴ページ</p>
+    <div className="space-y-3 p-5">
+      <div className="flex items-center justify-between">
+        <div className="text-2xl font-bold">トレーニングの履歴</div>
+      </div>
+
+      {/* トレーニング履歴リスト */}
     </div>
   );
 }

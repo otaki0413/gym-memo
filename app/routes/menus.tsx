@@ -27,7 +27,7 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function Menus({ loaderData }: Route.ComponentProps) {
   const { message } = loaderData;
   return (
-    <div className="space-y-3 p-3">
+    <div className="space-y-3 p-5">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-bold">マイメニューの管理</div>
         <div>
