@@ -14,13 +14,13 @@ import {
 // 開発環境用の環境変数の読込
 dotenv.config({ path: ".dev.vars" });
 
-if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
+if (!process.env.TURSO_URL || !process.env.TURSO_AUTH_TOKEN) {
   console.error("環境変数が設定されていません。");
   process.exit(1);
 }
 
 const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL,
+  url: process.env.TURSO_URL,
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
