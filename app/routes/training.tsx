@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import type { Route } from "./+types/training";
 import { DailyMenuSelection } from "~/components/Training/DailyMenuSelection";
+import { db } from "~/db/client.server";
+import { trainingMenuTable } from "~/db/schema";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,13 +11,15 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  // TODO: ユーザーの登録しているメニュー情報を取得
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+export async function loader({ context }: Route.LoaderArgs) {
+  const dbClient = db(context.cloudflare.env);
+  // TODO: 将来的にユーザーIDを取得して、マイメニューを取得する
+  const myMenus = await dbClient.select().from(trainingMenuTable);
+  return { myMenus };
 }
 
 export default function Training({ loaderData }: Route.ComponentProps) {
-  const { message } = loaderData;
+  const { myMenus } = loaderData;
   return (
     <div className="space-y-3 p-3">
       <div className="text-2xl font-semibold">本日のトレーニング</div>
@@ -48,7 +52,7 @@ export default function Training({ loaderData }: Route.ComponentProps) {
         </ul>
       </div>
       <div>
-        <DailyMenuSelection />
+        <DailyMenuSelection myMenus={myMenus} />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import type { SelectTrainingMenu } from "~/db/schema";
 import {
   Select,
   SelectContent,
@@ -6,15 +7,8 @@ import {
   SelectValue,
 } from "../ui/select";
 
-type TrainingMenu = {
-  id: number;
-  name: string;
-  sets: number;
-  reps: number;
-};
-
 type MenuSelectProps = {
-  menus: TrainingMenu[];
+  menus: SelectTrainingMenu[];
   onSelect: (menuId: number) => void;
 };
 
@@ -40,9 +34,11 @@ export const MenuSelect: React.FC<MenuSelectProps> = ({ menus, onSelect }) => {
             menus.map((menu) => (
               <SelectItem key={menu.id} value={menu.id.toString()}>
                 <div className="flex flex-col items-start">
-                  <span>{menu.name}</span>
+                  <span>{menu.menuName}</span>
                   <span className="text-muted-foreground text-xs">
-                    {menu.sets}セット × {menu.reps}回
+                    {menu.sets}セット ×{" "}
+                    {menu.reps_per_set && `${menu.reps_per_set}回`}{" "}
+                    {menu.time_per_set && `${menu.time_per_set}分`}
                   </span>
                 </div>
               </SelectItem>

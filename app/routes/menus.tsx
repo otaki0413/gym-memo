@@ -2,7 +2,9 @@ import { PlusIcon } from "lucide-react";
 import type { Route } from "./+types/menus";
 import { Button } from "~/components/ui/button";
 import { MenuList } from "~/components/Menu/MenuList";
-import MenuTabs from "~/components/Menu/MenuTabs";
+import { MenuTabs } from "~/components/Menu/MenuTabs";
+import { db } from "~/db/client.server";
+import { trainingMenuTable } from "~/db/schema";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,21 +13,16 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-// モックデータ
-const mockMenus = [
-  { id: "1", name: "ベンチプレス", sets: 3, reps: 10 },
-  { id: "2", name: "スクワット", sets: 4, reps: 8 },
-  { id: "3", name: "デッドリフト", sets: 3, reps: 5 },
-  { id: "4", name: "ラットプルダウン", sets: 3, reps: 12 },
-  { id: "5", name: "ショルダープレス", sets: 3, reps: 10 },
-];
-
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+export async function loader({ context }: Route.LoaderArgs) {
+  const dbClient = db(context.cloudflare.env);
+  // TODO: 将来的にユーザーIDを取得して、マイメニューを取得する
+  const myMenus = await dbClient.select().from(trainingMenuTable);
+  return { myMenus };
 }
 
 export default function Menus({ loaderData }: Route.ComponentProps) {
-  const { message } = loaderData;
+  const { myMenus } = loaderData;
+
   return (
     <div className="space-y-3 p-3">
       <div className="flex items-center justify-between">
@@ -42,7 +39,7 @@ export default function Menus({ loaderData }: Route.ComponentProps) {
       <MenuTabs />
 
       {/* マイメニューリスト */}
-      <MenuList initialMenus={mockMenus} />
+      <MenuList initialMenus={myMenus} />
     </div>
   );
 }
