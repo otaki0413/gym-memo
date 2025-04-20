@@ -64,8 +64,12 @@
     "typegen": "wrangler types && react-router typegen",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:dev": "ENV=development npm run db:migrate",
+    "db:migrate:prod": "ENV=production npm run db:migrate",
     "db:studio": "drizzle-kit studio",
-    "seed": "tsx app/db/seed.ts"
+    "seed": "tsx app/db/seed.ts",
+    "seed:dev": "ENV=development npm run seed",
+    "seed:prod": "ENV=production npm run seed"
   },
   "type": "module"
 }

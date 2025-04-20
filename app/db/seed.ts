@@ -11,8 +11,12 @@ import {
   type SelectExercise,
 } from "./schema";
 
-// 開発環境用の環境変数の読込
-dotenv.config({ path: ".dev.vars" });
+// ENV に応じて読み込む環境変数ファイルを切替え
+const currentEnv = process.env.ENV ?? "development";
+console.log(`Current environment: ${currentEnv}`);
+dotenv.config({
+  path: currentEnv === "production" ? ".prod.vars" : ".dev.vars",
+});
 
 if (!process.env.TURSO_URL || !process.env.TURSO_AUTH_TOKEN) {
   console.error("環境変数が設定されていません。");
