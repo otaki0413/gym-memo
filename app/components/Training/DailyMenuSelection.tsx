@@ -5,34 +5,19 @@ import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import { MenuSelect } from "./MenuSelect";
+import type { SelectTrainingMenu } from "~/db/schema";
+import logoRunningMan from "./logo-running-man.svg";
 
-// モックメニュー
-const MOCK_MENUS: TrainingMenu[] = [
-  { id: 1, name: "ベンチプレス", sets: 3, reps: 10 },
-  { id: 2, name: "スクワット", sets: 4, reps: 8 },
-  { id: 3, name: "デッドリフト", sets: 3, reps: 5 },
-  { id: 4, name: "ラットプルダウン", sets: 3, reps: 12 },
-  { id: 5, name: "ショルダープレス", sets: 3, reps: 10 },
-  { id: 6, name: "アームカール", sets: 3, reps: 15 },
-  { id: 7, name: "レッグプレス", sets: 4, reps: 10 },
-  { id: 8, name: "プルアップ", sets: 3, reps: 8 },
-  { id: 9, name: "ディップス", sets: 3, reps: 12 },
-  { id: 10, name: "カーフレイズ", sets: 4, reps: 20 },
-];
-
-type TrainingMenu = {
-  id: number;
-  name: string;
-  sets: number;
-  reps: number;
-};
-
-export const DailyMenuSelection = () => {
-  const [selectedMenus, setSelectedMenus] = useState<TrainingMenu[]>([]);
+export const DailyMenuSelection = ({
+  myMenus,
+}: {
+  myMenus: SelectTrainingMenu[];
+}) => {
+  const [selectedMenus, setSelectedMenus] = useState<SelectTrainingMenu[]>([]);
 
   // メニュー選択時の処理
   const handleAddMenu = (menuId: number) => {
-    const menu = MOCK_MENUS.find((m) => m.id === menuId);
+    const menu = myMenus.find((m) => m.id === menuId);
     if (menu && !selectedMenus.some((m) => m.id === menuId)) {
       setSelectedMenus([...selectedMenus, menu]);
     }
@@ -46,7 +31,7 @@ export const DailyMenuSelection = () => {
   return (
     <div className="space-y-3">
       {/* トレーニングメニュー選択エリア */}
-      <MenuSelect menus={MOCK_MENUS} onSelect={handleAddMenu} />
+      <MenuSelect menus={myMenus} onSelect={handleAddMenu} />
 
       {/* 選択したトレーニングリスト */}
       {selectedMenus.length > 0 ? (
@@ -61,10 +46,12 @@ export const DailyMenuSelection = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="line-clamp-2 font-semibold">
-                        {menu.name}
+                        {menu.menuName}
                       </div>
                       <div className="text-muted-foreground text-sm">
-                        {menu.sets}セット × {menu.reps}回
+                        {menu.sets}セット ×{" "}
+                        {menu.reps_per_set && `${menu.reps_per_set}回`}{" "}
+                        {menu.time_per_set && `${menu.time_per_set}分`}
                       </div>
                     </div>
                     <div className="flex items-center gap-x-1">
@@ -90,8 +77,10 @@ export const DailyMenuSelection = () => {
           </Button>
         </div>
       ) : (
-        <div className="text-muted-foreground py-8 text-center">
-          <p>TODO: 未選択のときは遊び心で画像を表示する</p>
+        <div className="flex items-center justify-center">
+          <div className="w-[400px]">
+            <img src={logoRunningMan} alt="Running Man" />
+          </div>
         </div>
       )}
     </div>

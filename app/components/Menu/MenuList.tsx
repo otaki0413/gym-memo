@@ -1,24 +1,17 @@
 "use client";
 
 import { useState } from "react";
-
 import { Edit, PlusIcon, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-
-type TrainingMenu = {
-  id: string;
-  name: string;
-  sets: number;
-  reps: number;
-};
+import type { SelectTrainingMenu } from "~/db/schema";
 
 type MenuListProps = {
-  initialMenus: TrainingMenu[];
+  initialMenus: SelectTrainingMenu[];
 };
 
-export function MenuList({ initialMenus }: MenuListProps) {
-  const [menus, setMenus] = useState<TrainingMenu[]>(initialMenus);
+export function MenuList({ initialMenus = [] }: MenuListProps) {
+  const [menus, setMenus] = useState<SelectTrainingMenu[]>(initialMenus);
 
   if (menus.length === 0) {
     return (
@@ -42,16 +35,20 @@ export function MenuList({ initialMenus }: MenuListProps) {
           <CardContent className="p-2">
             <div className="flex items-center justify-between">
               <div>
-                <div className="line-clamp-2 font-semibold">{menu.name}</div>
+                <div className="line-clamp-1 font-semibold">
+                  {menu.menuName}
+                </div>
                 <div className="text-muted-foreground text-sm">
-                  {menu.sets}セット × {menu.reps}回
+                  {menu.sets}セット ×{" "}
+                  {menu.reps_per_set && `${menu.reps_per_set}回`}{" "}
+                  {menu.time_per_set && `${menu.time_per_set}分`}
                 </div>
               </div>
               <div className="flex gap-x-1">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-12 w-12"
+                  className="h-10 w-10"
                   onClick={() =>
                     alert("TODO: メニュー編集モーダルが表示されます")
                   }
@@ -61,7 +58,7 @@ export function MenuList({ initialMenus }: MenuListProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-12 w-12"
+                  className="h-10 w-10"
                   onClick={() => alert("TODO: メニューを削除します")}
                 >
                   <Trash size={20} aria-hidden="true" />

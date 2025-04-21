@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
-export default function MenuTabs() {
+export function MenuTabs() {
   return (
     <Tabs defaultValue="all">
       <TabsList className="h-auto w-full justify-start rounded-none border-b bg-transparent p-0">

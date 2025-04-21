@@ -18,6 +18,9 @@ export const userTable = s.sqliteTable("user", {
     .$onUpdate(() => new Date().toISOString()),
 });
 
+export type InsertUser = typeof userTable.$inferInsert;
+export type SelectUser = typeof userTable.$inferSelect;
+
 export const checkInTable = s.sqliteTable("check_in", {
   id: s.int().primaryKey({ autoIncrement: true }),
   userId: s
@@ -36,6 +39,9 @@ export const checkInTable = s.sqliteTable("check_in", {
     .$onUpdate(() => new Date().toISOString()),
 });
 
+export type InsertCheckIn = typeof checkInTable.$inferInsert;
+export type SelectCheckIn = typeof checkInTable.$inferSelect;
+
 export const exerciseTable = s.sqliteTable("exercise", {
   id: s.int().primaryKey({ autoIncrement: true }),
   name: s.text("name").notNull(),
@@ -52,6 +58,9 @@ export const exerciseTable = s.sqliteTable("exercise", {
     .default(sql`CURRENT_TIMESTAMP`)
     .$onUpdate(() => new Date().toISOString()),
 });
+
+export type InsertExercise = typeof exerciseTable.$inferInsert;
+export type SelectExercise = typeof exerciseTable.$inferSelect;
 
 export const trainingMenuTable = s.sqliteTable("training_menu", {
   id: s.int().primaryKey({ autoIncrement: true }),
@@ -79,6 +88,9 @@ export const trainingMenuTable = s.sqliteTable("training_menu", {
     .$onUpdate(() => new Date().toISOString()),
 });
 
+export type InsertTrainingMenu = typeof trainingMenuTable.$inferInsert;
+export type SelectTrainingMenu = typeof trainingMenuTable.$inferSelect;
+
 export const trainingLogTable = s.sqliteTable("training_log", {
   id: s.int().primaryKey({ autoIncrement: true }),
   userId: s
@@ -105,6 +117,9 @@ export const trainingLogTable = s.sqliteTable("training_log", {
     .$onUpdate(() => new Date().toISOString()),
 });
 
+export type InsertTrainingLog = typeof trainingLogTable.$inferInsert;
+export type SelectTrainingLog = typeof trainingLogTable.$inferSelect;
+
 export const trainingLogDetailTable = s.sqliteTable("training_log_detail", {
   id: s.int().primaryKey({ autoIncrement: true }),
   trainingLogId: s
@@ -129,3 +144,8 @@ export const trainingLogDetailTable = s.sqliteTable("training_log_detail", {
     .default(sql`CURRENT_TIMESTAMP`)
     .$onUpdate(() => new Date().toISOString()),
 });
+
+export type InsertTrainingLogDetail =
+  typeof trainingLogDetailTable.$inferInsert;
+export type SelectTrainingLogDetail =
+  typeof trainingLogDetailTable.$inferSelect;
