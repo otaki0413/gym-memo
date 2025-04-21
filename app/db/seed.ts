@@ -7,8 +7,7 @@ import {
   trainingMenuTable,
   trainingLogDetailTable,
   trainingLogTable,
-  type SelectUser,
-  type SelectExercise,
+  checkInTable,
 } from "./schema";
 
 // ENV に応じて読み込む環境変数ファイルを切替え
@@ -40,10 +39,9 @@ async function resetTables() {
     await db.delete(trainingLogTable);
     await db.delete(trainingMenuTable);
     await db.delete(exerciseTable);
+    await db.delete(checkInTable);
     await db.delete(userTable);
 
-    // Auto-incrementのリセット
-    await turso.execute("DELETE FROM sqlite_sequence");
     console.log("All tables have been reset!");
   } catch (error) {
     console.error("Error resetting tables:", error);
@@ -57,32 +55,52 @@ async function seed() {
     await resetTables();
 
     // ユーザーデータの追加
-    const users: SelectUser[] = await db
+    const users = await db
       .insert(userTable)
       .values([
         {
-          clerkId: "user_2xK9XLPO1X",
-          email: "user1@example.com",
           username: "fitness_lover",
-          avatarUrl: "https://example.com/avatar1.jpg",
+          displayName: "フィットネス愛好家",
+          email: "user1@example.com",
+          avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+          bio: "毎日のトレーニングを欠かさず継続中！",
         },
         {
-          clerkId: "user_7mN4QWER2Y",
-          email: "user2@example.com",
           username: "gym_master",
-          avatarUrl: "https://example.com/avatar2.jpg",
+          displayName: "ジムの達人",
+          email: "user2@example.com",
+          avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+          bio: "プロのトレーナーとして活動中",
         },
+        // 新しいユーザーを追加
         {
-          clerkId: "user_9pL5ASDF3Z",
+          username: "workout_beginner",
+          displayName: "トレーニング初心者",
           email: "user3@example.com",
-          username: "workout_pro",
-          avatarUrl: "https://example.com/avatar3.jpg",
+          avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie",
+          bio: "筋トレを始めたばかりです！アドバイスください！",
         },
       ])
       .returning();
 
+    // チェックインデータの追加
+    await db.insert(checkInTable).values([
+      {
+        userId: users[0].id,
+        checkInDate: new Date().toISOString().split("T")[0], // YYYY-MM-DD形式
+      },
+      {
+        userId: users[1].id,
+        checkInDate: new Date().toISOString().split("T")[0],
+      },
+      {
+        userId: users[2].id,
+        checkInDate: new Date().toISOString().split("T")[0],
+      },
+    ]);
+
     // トレーニング種目データの追加
-    const exercises: SelectExercise[] = await db
+    const exercises = await db
       .insert(exerciseTable)
       .values([
         {
@@ -218,11 +236,12 @@ async function seed() {
       .returning();
 
     console.log("Seed data inserted successfully!");
+    turso.close();
     process.exit(0);
   } catch (error) {
     console.error("Error seeding data:", error);
+    turso.close();
     process.exit(1);
   }
 }
-
 seed();

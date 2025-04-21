@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8ef558db-ce3e-4158-a50b-f032521cb952",
+  "id": "c6d60463-9a8a-4382-948f-331122214567",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "check_in": {
@@ -9,14 +9,14 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -57,7 +57,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -70,10 +70,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "name": {
           "name": "name",
@@ -131,21 +131,14 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "training_log_id": {
-          "name": "training_log_id",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "training_menu_id": {
-          "name": "training_menu_id",
-          "type": "integer",
+        "training_log_id": {
+          "name": "training_log_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -207,20 +200,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "training_log_detail_training_menu_id_training_menu_id_fk": {
-          "name": "training_log_detail_training_menu_id_training_menu_id_fk",
-          "tableFrom": "training_log_detail",
-          "tableTo": "training_menu",
-          "columnsFrom": [
-            "training_menu_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -233,21 +213,21 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "training_menu_id": {
           "name": "training_menu_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -295,7 +275,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "training_log_training_menu_id_training_menu_id_fk": {
@@ -308,7 +288,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -321,21 +301,21 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "exercise_id": {
           "name": "exercise_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -404,7 +384,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "training_menu_exercise_id_exercise_id_fk": {
@@ -417,7 +397,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -430,22 +410,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text(24)",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "clerk_id": {
-          "name": "clerk_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -456,8 +422,29 @@
           "notNull": true,
           "autoincrement": false
         },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "avatar_url": {
           "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "bio": {
+          "name": "bio",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -481,10 +468,10 @@
         }
       },
       "indexes": {
-        "user_clerk_id_unique": {
-          "name": "user_clerk_id_unique",
+        "user_username_unique": {
+          "name": "user_username_unique",
           "columns": [
-            "clerk_id"
+            "username"
           ],
           "isUnique": true
         },
@@ -492,13 +479,6 @@
           "name": "user_email_unique",
           "columns": [
             "email"
-          ],
-          "isUnique": true
-        },
-        "user_username_unique": {
-          "name": "user_username_unique",
-          "columns": [
-            "username"
           ],
           "isUnique": true
         }
