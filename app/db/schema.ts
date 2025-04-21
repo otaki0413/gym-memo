@@ -1,148 +1,97 @@
-import { sql } from "drizzle-orm";
-import * as s from "drizzle-orm/sqlite-core";
+import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { cuid, createdAt, updatedAt } from "./helpers";
 
-export const userTable = s.sqliteTable("user", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  clerkId: s.text("clerk_id").notNull().unique(),
-  email: s.text("email").notNull().unique(),
-  username: s.text("username").notNull().unique(),
-  avatarUrl: s.text("avatar_url"),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+export const userTable = sqliteTable("user", {
+  id: cuid(),
+  username: text("username", { mode: "text" }).notNull().unique(),
+  displayName: text("display_name", { mode: "text" }),
+  email: text("email", { mode: "text" }).notNull().unique(),
+  avatarUrl: text("avatar_url", { mode: "text" }),
+  bio: text("bio", { mode: "text" }),
+  createdAt,
+  updatedAt,
 });
 
 export type InsertUser = typeof userTable.$inferInsert;
 export type SelectUser = typeof userTable.$inferSelect;
 
-export const checkInTable = s.sqliteTable("check_in", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  userId: s
-    .int("user_id")
+export const checkInTable = sqliteTable("check_in", {
+  id: cuid(),
+  userId: text("user_id", { mode: "text" })
     .notNull()
-    .references(() => userTable.id),
-  checkInDate: s.text("check_in_date").notNull(),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  checkInDate: text("check_in_date", { mode: "text" }).notNull(), // 登録時に"YYYY-MM-DD"形式で保存する
+  createdAt,
+  updatedAt,
 });
 
 export type InsertCheckIn = typeof checkInTable.$inferInsert;
 export type SelectCheckIn = typeof checkInTable.$inferSelect;
 
-export const exerciseTable = s.sqliteTable("exercise", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  name: s.text("name").notNull(),
-  type: s.text("type").notNull(),
-  unit: s.text("unit").$type<"rep" | "min" | "meter">().notNull(),
-  remarks: s.text("remarks"),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+export const exerciseTable = sqliteTable("exercise", {
+  id: cuid(),
+  name: text("name", { mode: "text" }).notNull(),
+  type: text("type", { mode: "text" }).notNull(),
+  unit: text("unit", { mode: "text", enum: ["rep", "min", "meter"] }).notNull(),
+  remarks: text("remarks", { mode: "text" }),
+  createdAt,
+  updatedAt,
 });
 
 export type InsertExercise = typeof exerciseTable.$inferInsert;
 export type SelectExercise = typeof exerciseTable.$inferSelect;
 
-export const trainingMenuTable = s.sqliteTable("training_menu", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  userId: s
-    .int("user_id")
+export const trainingMenuTable = sqliteTable("training_menu", {
+  id: cuid(),
+  userId: text("user_id", { mode: "text" })
     .notNull()
-    .references(() => userTable.id),
-  exerciseId: s
-    .int("exercise_id")
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  exerciseId: text("exercise_id")
     .notNull()
-    .references(() => exerciseTable.id),
-  menuName: s.text("menu_name").notNull(),
-  sets: s.int("sets").notNull(),
-  reps_per_set: s.int("reps_per_set"),
-  time_per_set: s.int("time_per_set"),
-  distance_per_set: s.int("distance_per_set"),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+    .references(() => exerciseTable.id, { onDelete: "cascade" }),
+  menuName: text("menu_name").notNull(),
+  sets: int("sets").notNull(),
+  reps_per_set: int("reps_per_set"),
+  time_per_set: int("time_per_set"),
+  distance_per_set: int("distance_per_set"),
+  createdAt,
+  updatedAt,
 });
 
 export type InsertTrainingMenu = typeof trainingMenuTable.$inferInsert;
 export type SelectTrainingMenu = typeof trainingMenuTable.$inferSelect;
 
-export const trainingLogTable = s.sqliteTable("training_log", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  userId: s
-    .int("user_id")
+export const trainingLogTable = sqliteTable("training_log", {
+  id: cuid(),
+  userId: text("user_id", { mode: "text" })
     .notNull()
-    .references(() => userTable.id),
-  trainingMenuId: s
-    .int("training_menu_id")
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  trainingMenuId: text("training_menu_id")
     .notNull()
-    .references(() => trainingMenuTable.id),
-  status: s
-    .text("status")
-    .notNull()
-    .$type<"in_progress" | "completed" | "not_completed">(),
-  remarks: s.text("remarks"),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+    .references(() => trainingMenuTable.id, { onDelete: "cascade" }),
+  status: text("status", {
+    mode: "text",
+    enum: ["not_started", "in_progress", "completed", "canceled"],
+  }).notNull(),
+  remarks: text("remarks"),
+  createdAt,
+  updatedAt,
 });
 
 export type InsertTrainingLog = typeof trainingLogTable.$inferInsert;
 export type SelectTrainingLog = typeof trainingLogTable.$inferSelect;
 
-export const trainingLogDetailTable = s.sqliteTable("training_log_detail", {
-  id: s.int().primaryKey({ autoIncrement: true }),
-  trainingLogId: s
-    .int("training_log_id")
+export const trainingLogDetailTable = sqliteTable("training_log_detail", {
+  id: cuid(),
+  trainingLogId: text("training_log_id")
     .notNull()
-    .references(() => trainingLogTable.id),
-  trainingMenuId: s
-    .int("training_menu_id")
-    .notNull()
-    .references(() => trainingMenuTable.id),
-  setNumber: s.int("set_number").notNull(),
-  reps: s.int("reps"),
-  time: s.int("time"),
-  distance: s.int("distance"),
-  createdAt: s
-    .text("created_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: s
-    .text("updated_at")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .$onUpdate(() => new Date().toISOString()),
+    .references(() => trainingLogTable.id, { onDelete: "cascade" }),
+  setNumber: int("set_number").notNull(),
+  reps: int("reps"),
+  time: int("time"),
+  distance: int("distance"),
+  createdAt,
+  updatedAt,
 });
 
 export type InsertTrainingLogDetail =
