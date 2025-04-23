@@ -9,12 +9,12 @@ import {
 
 type MenuSelectProps = {
   menus: SelectTrainingMenu[];
-  onSelect: (menuId: number) => void;
+  onSelect: (menuId: string) => void;
 };
 
 export const MenuSelect: React.FC<MenuSelectProps> = ({ menus, onSelect }) => {
   const handleSelect = (value: string) => {
-    onSelect(Number(value));
+    onSelect(value);
   };
 
   return (

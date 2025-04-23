@@ -16,7 +16,7 @@ export const DailyMenuSelection = ({
   const [selectedMenus, setSelectedMenus] = useState<SelectTrainingMenu[]>([]);
 
   // メニュー選択時の処理
-  const handleAddMenu = (menuId: number) => {
+  const handleAddMenu = (menuId: string) => {
     const menu = myMenus.find((m) => m.id === menuId);
     if (menu && !selectedMenus.some((m) => m.id === menuId)) {
       setSelectedMenus([...selectedMenus, menu]);
@@ -24,7 +24,7 @@ export const DailyMenuSelection = ({
   };
 
   // メニュー削除時の処理
-  const handleRemoveMenu = (menuId: number) => {
+  const handleRemoveMenu = (menuId: string) => {
     setSelectedMenus(selectedMenus.filter((m) => m.id !== menuId));
   };
 
