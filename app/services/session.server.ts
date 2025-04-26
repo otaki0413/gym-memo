@@ -1,5 +1,5 @@
-import { createCookieSessionStorage } from "react-router";
-import type { SessionUser } from "./auth.server";
+import { createCookieSessionStorage, redirect } from "react-router";
+import { authenticator, type SessionUser } from "./auth.server";
 
 export const SESSION_KEY = "user";
 export const sessionStorage = createCookieSessionStorage<{
@@ -16,26 +16,46 @@ export const sessionStorage = createCookieSessionStorage<{
   },
 });
 
+/**
+ * Cookieからセッションデータを取得する
+ */
 export const getSession = async (request: Request) => {
   return await sessionStorage.getSession(request.headers.get("Cookie"));
 };
 
-export const getSessionUser = async (request: Request) => {
+/**
+ * Cookieからセッションデータと関連するユーザー情報を取得する
+ */
+export async function getSessionUser(request: Request) {
   const session = await getSession(request);
-  return session?.get(SESSION_KEY);
-};
+  const sessionUser = session.get(SESSION_KEY);
+  return { session, sessionUser: sessionUser ?? null };
+}
 
-export const saveSession = async (request: Request, user: SessionUser) => {
+/**
+ * 認証成功 + リダイレクト処理
+ */
+export async function handleAuthSuccess(
+  provider: string,
+  request: Request,
+  redirectTo = "/",
+) {
+  const user = await authenticator.authenticate(provider, request);
   const session = await getSession(request);
   session.set(SESSION_KEY, user);
-  return new Headers({
-    "Set-Cookie": await sessionStorage.commitSession(session),
+  return redirect(redirectTo, {
+    headers: { "Set-Cookie": await sessionStorage.commitSession(session) },
   });
-};
+}
 
-export const destroySession = async (request: Request) => {
-  const session = await getSession(request);
-  return new Headers({
-    "Set-Cookie": await sessionStorage.destroySession(session),
-  });
-};
+/**
+ * 認証エラー + リダイレクト処理
+ */
+export async function handleAuthError(
+  provider: string,
+  error: unknown,
+  redirectTo = "/auth/login",
+) {
+  if (error instanceof Error) throw error;
+  throw redirect(redirectTo);
+}
