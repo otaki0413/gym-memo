@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet } from "react-router";
 import { Home, List, History, Dumbbell } from "lucide-react";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Button } from "~/components/ui/button";
 
 export default function AppLayout({
   hasBottomNav = false,
@@ -49,7 +49,9 @@ export default function AppLayout({
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback></AvatarFallback>
             </Avatar>
-            <Button>ログイン</Button>
+            <Button asChild>
+              <Link to="/auth/login">ログイン</Link>
+            </Button>
           </div>
         </header>
 
