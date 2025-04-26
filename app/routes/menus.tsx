@@ -3,8 +3,8 @@ import type { Route } from "./+types/menus";
 import { Button } from "~/components/ui/button";
 import { MenuList } from "~/components/Menu/MenuList";
 import { MenuTabs } from "~/components/Menu/MenuTabs";
-import { db } from "~/db/client.server";
 import { trainingMenuTable } from "~/db/schema";
+import { buildDbClient } from "~/db/client.server";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,9 +14,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ context }: Route.LoaderArgs) {
-  const dbClient = db(context.cloudflare.env);
+  const db = buildDbClient(context.cloudflare.env);
   // TODO: 将来的にユーザーIDを取得して、マイメニューを取得する
-  const myMenus = await dbClient.select().from(trainingMenuTable);
+  const myMenus = await db.select().from(trainingMenuTable);
   return { myMenus };
 }
 
