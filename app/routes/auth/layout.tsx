@@ -13,7 +13,7 @@ export default function AuthLayout() {
           <ArrowLeftIcon className="size-4" />
         </Link>
       </div>
-      <div className="mx-auto w-full sm:w-[356px]">
+      <div>
         <Outlet />
       </div>
     </div>
