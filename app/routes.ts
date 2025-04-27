@@ -21,6 +21,7 @@ export default [
       route("login", "routes/auth/login.tsx"),
       route("google", "routes/auth/google.tsx"),
       route("google/callback", "routes/auth/google-callback.ts"),
+      route("logout", "routes/auth/logout.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

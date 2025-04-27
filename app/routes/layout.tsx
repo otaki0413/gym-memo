@@ -1,7 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router";
 import { Home, List, History, Dumbbell } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
+import { UserNav } from "~/components/UserNav";
 
 export default function AppLayout({
   hasBottomNav = false,
@@ -44,15 +43,7 @@ export default function AppLayout({
               GymMemo
             </Link>
           </div>
-          <div className="flex items-center">
-            <Avatar className="rounded-md bg-black">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
-            <Button asChild>
-              <Link to="/auth/login">ログイン</Link>
-            </Button>
-          </div>
+          <UserNav />
         </header>
 
         {/* ナビゲーション + コンテンツ */}
