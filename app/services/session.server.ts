@@ -10,6 +10,9 @@ import { buildDbClient } from "~/db/client.server";
 import { userTable } from "~/db/schema";
 
 export const SESSION_KEY = "user";
+export const AUTH_SUCCESS_REDIRECT_TO = "/";
+export const AUTH_ERROR_REDIRECT_TO = "/auth/login";
+
 export const sessionStorage = createCookieSessionStorage<{
   [SESSION_KEY]: SessionUser;
 }>({
@@ -41,13 +44,12 @@ export async function getSessionUser(request: Request) {
 }
 
 /**
- * 認証成功 + リダイレクト処理
+ * 認証成功時のリダイレクト処理
  */
 export async function handleAuthSuccess(
-  // authenticator: ReturnType<typeof createAuth>,
   provider: string,
   request: Request,
-  redirectTo = "/",
+  redirectTo = AUTH_SUCCESS_REDIRECT_TO,
 ) {
   const user = await authenticator.authenticate(provider, request);
   const session = await getSession(request);
@@ -58,12 +60,12 @@ export async function handleAuthSuccess(
 }
 
 /**
- * 認証エラー + リダイレクト処理
+ * 認証エラー時のリダイレクト処理
  */
 export async function handleAuthError(
   provider: string,
   error: unknown,
-  redirectTo = "/auth/login",
+  redirectTo = AUTH_ERROR_REDIRECT_TO,
 ) {
   console.error(`Auth Error [${provider}]:`, error);
   if (error instanceof Error) throw error;

@@ -3,7 +3,7 @@ import { getSession, sessionStorage } from "~/services/session.server";
 import type { Route } from "./+types/logout";
 
 export const loader = async () => {
-  return redirect("/");
+  return redirect("/auth/login");
 };
 
 export const action = async ({ request }: Route.ActionArgs) => {

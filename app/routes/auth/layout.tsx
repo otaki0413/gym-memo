@@ -2,6 +2,10 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Link, Outlet } from "react-router";
 import { buttonVariants } from "~/components/ui/button";
 
+export async function loader() {
+  return null;
+}
+
 export default function AuthLayout() {
   return (
     <div className="flex h-screen w-full items-center justify-center px-6">
