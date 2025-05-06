@@ -22,7 +22,7 @@ export const UserNav: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const avatarUrl = user?.avatarUrl
     ? user.avatarUrl
-    : `https://avatar.vercel.sh/${user.avatarUrl}`;
+    : `https://avatar.vercel.sh/${user.email}`;
 
   return (
     <DropdownMenu>
