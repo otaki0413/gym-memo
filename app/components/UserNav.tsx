@@ -1,8 +1,4 @@
-import {
-  LogOut,
-  LucideSquareArrowOutUpRight,
-  SettingsIcon,
-} from "lucide-react";
+import { Home, LogOut, SettingsIcon } from "lucide-react";
 import { useNavigate, useSubmit } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -14,13 +10,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { useUser } from "~/hooks/use-user";
 import { Button } from "./ui/button";
+import type { SessionUser } from "~/services/auth.server";
 
-export function UserNav() {
-  const user = useUser();
+type Props = {
+  user: SessionUser;
+};
+
+export const UserNav: React.FC<Props> = ({ user }) => {
   const submit = useSubmit();
   const navigate = useNavigate();
+  const avatarUrl = user?.avatarUrl
+    ? user.avatarUrl
+    : `https://avatar.vercel.sh/${user.avatarUrl}`;
 
   return (
     <DropdownMenu>
@@ -28,11 +30,7 @@ export function UserNav() {
         <Button variant="ghost" size="icon" className="size-8">
           <Avatar className="rounded-md bg-black">
             <AvatarImage
-              src={
-                user?.avatarUrl
-                  ? user?.avatarUrl
-                  : `https://avatar.vercel.sh/${user.avatarUrl}`
-              }
+              src={avatarUrl}
               alt={user?.displayName ?? "User avatar"}
             />
             <AvatarFallback className="text-xs font-bold uppercase">
@@ -54,12 +52,12 @@ export function UserNav() {
 
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => navigate("/")}>
-            <LucideSquareArrowOutUpRight size={16} aria-hidden="true" />
-            Home page
+            <Home size={16} aria-hidden="true" />
+            <span>ホーム</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => navigate("/")}>
             <SettingsIcon size={16} aria-hidden="true" />
-            <span>Account</span>
+            <span>設定</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -72,10 +70,10 @@ export function UserNav() {
             }}
           >
             <LogOut size={16} aria-hidden="true" />
-            Logout
+            <span>ログアウト</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

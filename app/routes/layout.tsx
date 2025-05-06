@@ -1,12 +1,19 @@
-import { Link, NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet, redirect } from "react-router";
 import { Home, List, History, Dumbbell } from "lucide-react";
 import { UserNav } from "~/components/UserNav";
+import { getSessionUser } from "~/services/session.server";
+import type { Route } from "./+types/layout";
 
-export default function AppLayout({
-  hasBottomNav = false,
-}: {
-  hasBottomNav?: boolean;
-}) {
+export async function loader({ request }: Route.LoaderArgs) {
+  const { session, sessionUser } = await getSessionUser(request);
+  if (!session || sessionUser === undefined) {
+    throw redirect("/auth/login");
+  }
+  return { user: sessionUser };
+}
+
+export default function AppLayout({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   const items = [
     {
       href: "/",
@@ -43,7 +50,8 @@ export default function AppLayout({
               GymMemo
             </Link>
           </div>
-          <UserNav />
+          {/* ユーザーメニュー */}
+          <UserNav user={user} />
         </header>
 
         {/* ナビゲーション + コンテンツ */}
