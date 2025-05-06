@@ -7,12 +7,19 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
+import type { SessionUser } from "~/services/auth.server";
 
-export const CheckInPanel = () => {
+type Props = {
+  user?: SessionUser;
+};
+
+export const CheckInPanel: React.FC<Props> = ({ user }) => {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">〇〇さん、ようこそ！</CardTitle>
+        <CardTitle className="text-xl">
+          {user ? user.displayName : "ゲスト"}さん、ようこそ！
+        </CardTitle>
         <CardDescription className="break-words">
           ジムに到着したらすぐチェックインしましょう！
         </CardDescription>
