@@ -1,7 +1,17 @@
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { GoogleIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import logoRunningMan from "~/components/Training/logo-running-man.svg";
+import { getSessionUser } from "~/services/session.server";
+import type { Route } from "./+types/login";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const { sessionUser } = await getSessionUser(request);
+  if (sessionUser) {
+    return redirect("/");
+  }
+  return null;
+}
 
 export default function Login() {
   return (

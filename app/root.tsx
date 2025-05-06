@@ -27,6 +27,7 @@ export const links: Route.LinksFunction = () => [
 
 export async function loader({ request }: Route.LoaderArgs) {
   const { sessionUser } = await getSessionUser(request);
+  // TODO: 無限レンダリングを防ぐための一時的な条件分岐
   if (!sessionUser && new URL(request.url).pathname === "/")
     throw redirect("/auth/login");
   return { sessionUser };
