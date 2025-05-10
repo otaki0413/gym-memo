@@ -28,7 +28,7 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
 
   // チェックイン日時をUTCからJSTに変換
   const checkInTimeJST = checkInInfo?.createdAt
-    ? formatInJST(checkInInfo.createdAt, "yyyy-MM-dd HH:mm:ss")
+    ? formatInJST(checkInInfo.createdAt, "MM月dd日 HH:mm:ss")
     : "";
 
   return (
@@ -52,9 +52,8 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
             <fetcher.Form method="delete" className="flex-1">
               <Button
                 variant="destructive"
-                className="flex-auto cursor-pointer font-semibold"
+                className="flex-1 cursor-pointer font-semibold"
               >
-                <X />
                 解除
               </Button>
             </fetcher.Form>

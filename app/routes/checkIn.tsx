@@ -110,8 +110,8 @@ export default function CheckIn({ loaderData }: Route.ComponentProps) {
         isTodayCheckIn={isTodayCheckIn}
       />
       <div className="flex flex-col gap-2 sm:flex-row">
-        <CheckInAchievement />
-        <CheckInCalendar />
+        <CheckInAchievement allCheckInDate={allCheckInDate} />
+        <CheckInCalendar allCheckInDate={allCheckInDate} />
       </div>
     </div>
   );
