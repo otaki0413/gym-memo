@@ -11,6 +11,12 @@ importers:
       '@coji/remix-auth-google':
         specifier: ^4.2.0
         version: 4.2.0
+      '@conform-to/react':
+        specifier: ^1.5.0
+        version: 1.5.0(react@19.0.0)
+      '@conform-to/zod':
+        specifier: ^1.5.0
+        version: 1.5.0(zod@3.24.4)
       '@date-fns/tz':
         specifier: ^1.2.0
         version: 1.2.0
@@ -86,6 +92,9 @@ importers:
       tw-animate-css:
         specifier: ^1.2.5
         version: 1.2.8
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: 1.0.2
@@ -357,6 +366,19 @@ packages:
 
   '@coji/remix-auth-google@4.2.0':
     resolution: {integrity: sha512-H9i3fvVz0GE18GUZHpz7p7FQjuiuloTIBAPjW7cfv7lUEk+mI6WRTVLEHJBLLuTlAF1+0EbzvPRYKutxZiFdfw==}
+
+  '@conform-to/dom@1.5.0':
+    resolution: {integrity: sha512-7cbIjD3SZzidTzQTLqDhcu2FtkB1l/ZwPlv/mlZgBiezyHd//gBoauGygemcOToEqHahRYFLYwovmKqdjTMARA==}
+
+  '@conform-to/react@1.5.0':
+    resolution: {integrity: sha512-j6fq1UTJ8rLxT4hMZRj9Qyi1lYrALsuno3024/nORYjmqThm2K7wsB1Aaox67SxcR5p4fpva4d8pOkzOSBYN2g==}
+    peerDependencies:
+      react: '>=18'
+
+  '@conform-to/zod@1.5.0':
+    resolution: {integrity: sha512-bk+S0sFSfyVL7UVbHAjComnGq4p4vGMtfyyxFB8116XTnxQVyk88dXhj/ApxPQTktWn+OukDWyz5TQ92t/qo+A==}
+    peerDependencies:
+      zod: ^3.21.0
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3174,6 +3196,9 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -3432,6 +3457,18 @@ snapshots:
   '@cloudflare/workers-types@4.20250428.0': {}
 
   '@coji/remix-auth-google@4.2.0': {}
+
+  '@conform-to/dom@1.5.0': {}
+
+  '@conform-to/react@1.5.0(react@19.0.0)':
+    dependencies:
+      '@conform-to/dom': 1.5.0
+      react: 19.0.0
+
+  '@conform-to/zod@1.5.0(zod@3.24.4)':
+    dependencies:
+      '@conform-to/dom': 1.5.0
+      zod: 3.24.4
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -5726,3 +5763,5 @@ snapshots:
       stacktracey: 2.1.8
 
   zod@3.22.3: {}
+
+  zod@3.24.4: {}
