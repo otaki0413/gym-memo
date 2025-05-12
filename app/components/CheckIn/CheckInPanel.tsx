@@ -49,7 +49,7 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
               チェックイン完了
               <span className="ml-1">{checkInTimeJST}</span>
             </Button>
-            <fetcher.Form method="POST" className="flex-1">
+            <fetcher.Form method="DELETE" className="flex-1">
               <input type="hidden" name="intent" value="deleteCheckIn" />
               <Button
                 type="submit"

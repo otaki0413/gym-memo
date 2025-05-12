@@ -60,14 +60,14 @@ export async function action({ context, request }: Route.ActionArgs) {
   }
 
   const formData = await request.formData();
-  const action = formData.get("intent");
+  const intent = formData.get("intent");
 
   // DBクライアント作成
   const db = buildDbClient(context.cloudflare.env);
   // フォーマットした今日の日付を取得
   const fmtToday = formatDate(new Date(), "yyyy-MM-dd");
 
-  if (action === "deleteCheckIn") {
+  if (intent === "deleteCheckIn") {
     // チェックイン解除処理
     try {
       await db
