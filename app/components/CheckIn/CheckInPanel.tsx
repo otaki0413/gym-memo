@@ -1,5 +1,5 @@
 import { useFetcher } from "react-router";
-import { CircleCheckBig, CircleDotDashed, LoaderCircle, X } from "lucide-react";
+import { CircleCheckBig, CircleDotDashed, LoaderCircle } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
 import { Button } from "../ui/button";
 import type { SessionUser } from "~/services/auth.server";
 import type { SelectCheckIn } from "~/db/schema";
-import { formatInJST } from "~/lib/utils";
+import { convertToJSTDate, formatDate } from "~/lib/utils";
 
 type CheckInPanelProps = {
   user?: SessionUser;
@@ -28,7 +28,7 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
 
   // チェックイン日時をUTCからJSTに変換
   const checkInTimeJST = checkInInfo?.createdAt
-    ? formatInJST(checkInInfo.createdAt, "MM月dd日 HH:mm:ss")
+    ? formatDate(convertToJSTDate(checkInInfo.createdAt), "M月d日 HH時mm分ss秒")
     : "";
 
   return (
@@ -49,8 +49,10 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
               チェックイン完了
               <span className="ml-1">{checkInTimeJST}</span>
             </Button>
-            <fetcher.Form method="delete" className="flex-1">
+            <fetcher.Form method="DELETE" className="flex-1">
+              <input type="hidden" name="intent" value="deleteCheckIn" />
               <Button
+                type="submit"
                 variant="destructive"
                 className="flex-1 cursor-pointer font-semibold"
               >

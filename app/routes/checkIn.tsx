@@ -59,13 +59,37 @@ export async function action({ context, request }: Route.ActionArgs) {
     throw new Response("Unauthorized", { status: 401 });
   }
 
-  console.log("チェックイン処理を実行します");
-  // 1秒待機（デモ用）
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+
   // DBクライアント作成
   const db = buildDbClient(context.cloudflare.env);
   // フォーマットした今日の日付を取得
   const fmtToday = formatDate(new Date(), "yyyy-MM-dd");
+
+  if (intent === "deleteCheckIn") {
+    // チェックイン解除処理
+    try {
+      await db
+        .delete(checkInTable)
+        .where(
+          and(
+            eq(checkInTable.userId, sessionUser.id),
+            eq(checkInTable.checkInDate, fmtToday),
+          ),
+        )
+        .run();
+      console.log("✅ CheckIn deleted");
+      return null;
+    } catch (error) {
+      console.log("Error deleting checkIn", error);
+      throw new Error("CheckIn deletion failed, please try again");
+    }
+  }
+
+  console.log("チェックイン処理を実行します");
+  // 1秒待機
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   // レコードの存在確認
   const existingCheckIn = await db
     .select()
