@@ -1,10 +1,9 @@
-import { PlusIcon } from "lucide-react";
 import type { Route } from "./+types/menus";
-import { Button } from "~/components/ui/button";
 import { MenuList } from "~/components/Menu/MenuList";
 import { MenuTabs } from "~/components/Menu/MenuTabs";
 import { trainingMenuTable } from "~/db/schema";
 import { buildDbClient } from "~/db/client.server";
+import { MenuCreateModal } from "~/components/Menu/MenuCreateModal";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -27,12 +26,8 @@ export default function Menus({ loaderData }: Route.ComponentProps) {
     <div className="space-y-3 p-3">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-semibold">マイメニューの管理</div>
-        <div>
-          <Button variant="outline" className="aspect-square max-sm:p-0">
-            <PlusIcon size={16} aria-hidden="true" />
-            新規作成
-          </Button>
-        </div>
+        {/* メニュー作成用モーダル */}
+        <MenuCreateModal />
       </div>
 
       {/* メニューの切り替えタブ */}
