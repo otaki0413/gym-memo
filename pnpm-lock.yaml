@@ -20,6 +20,9 @@ importers:
       '@date-fns/tz':
         specifier: ^1.2.0
         version: 1.2.0
+      '@date-fns/utc':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@libsql/client':
         specifier: ^0.15.2
         version: 0.15.4
@@ -386,6 +389,9 @@ packages:
 
   '@date-fns/tz@1.2.0':
     resolution: {integrity: sha512-LBrd7MiJZ9McsOgxqWX7AaxrDjcFVjWH/tIKJd7pnR7McaslGYOP1QmmiBXdJH/H/yLCT+rcQ7FaPBUxRGUtrg==}
+
+  '@date-fns/utc@2.1.0':
+    resolution: {integrity: sha512-176grgAgU2U303rD2/vcOmNg0kGPbhzckuH1TEP2al7n0AQipZIy9P15usd2TKQCG1g+E1jX/ZVQSzs4sUDwgA==}
 
   '@drizzle-team/brocli@0.10.2':
     resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
@@ -3475,6 +3481,8 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@date-fns/tz@1.2.0': {}
+
+  '@date-fns/utc@2.1.0': {}
 
   '@drizzle-team/brocli@0.10.2': {}
 

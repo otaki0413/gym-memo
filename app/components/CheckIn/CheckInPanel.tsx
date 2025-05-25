@@ -1,5 +1,6 @@
 import { useFetcher } from "react-router";
 import { CircleCheckBig, CircleDotDashed, LoaderCircle } from "lucide-react";
+import { format } from "date-fns";
 import {
   Card,
   CardContent,
@@ -10,7 +11,7 @@ import {
 import { Button } from "../ui/button";
 import type { SessionUser } from "~/services/auth.server";
 import type { SelectCheckIn } from "~/db/schema";
-import { convertToJSTDate, formatDate } from "~/lib/utils";
+import { convertToLocalDate } from "~/lib/utils";
 
 type CheckInPanelProps = {
   user?: SessionUser;
@@ -28,7 +29,10 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
 
   // チェックイン日時をUTCからJSTに変換
   const checkInTimeJST = checkInInfo?.createdAt
-    ? formatDate(convertToJSTDate(checkInInfo.createdAt), "M月d日 HH時mm分ss秒")
+    ? format(
+        convertToLocalDate(checkInInfo.createdAt, "Asia/Tokyo"),
+        "M月d日 HH時mm分ss秒",
+      )
     : "";
 
   return (

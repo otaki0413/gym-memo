@@ -30,18 +30,24 @@ export function formatDate(
 }
 
 /**
- * UTCの日付文字列をJSTに変換する
- * @param utcString - UTC形式の日付文字列
- * @returns JSTのDateオブジェクト
+ * UTCの日付文字列を指定したタイムゾーンに変換する
+ * @param utcString - UTC形式の日付文字列（"YYYY-MM-DD HH:MM:SS"の形式が前提）
+ * @param timeZone - タイムゾーン（例："Asia/Tokyo", "UTC"など）
+ * @returns タイムゾーンに基づくTZDateオブジェクト
  */
-export function convertToJSTDate(utcString: string): Date {
+export function convertToLocalDate(utcString: string, timeZone?: string): Date {
   try {
-    const utcDate = new Date(utcString + "Z");
+    // ISO形式への正規化（"YYYY-MM-DD HH:MM:SS" -> "YYYY-MM-DDTHH:MM:SSZ"）
+    const normalized = utcString.replace(" ", "T").replace(/Z?$/, "Z");
+    const utcDate = new Date(normalized);
+
+    // 日付の有効性チェック
     if (!isValid(utcDate)) {
       throw new Error("Invalid UTC date string");
     }
-    const jstDate = new TZDate(utcDate, "Asia/Tokyo");
-    return jstDate;
+    // タイムゾーンに基づいてTZDateを作成（なければローカルタイムゾーンを使用）
+    const zone = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return new TZDate(utcDate, zone);
   } catch (error) {
     console.error("Date conversion error:", error);
     throw error;

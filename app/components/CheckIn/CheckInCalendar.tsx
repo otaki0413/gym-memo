@@ -1,6 +1,6 @@
 import { Calendar } from "../ui/calendar";
 import type { SelectCheckIn } from "~/db/schema";
-import { convertToJSTDate } from "~/lib/utils";
+import { convertToLocalDate } from "~/lib/utils";
 
 // カレンダーに表示用のダミーデータ
 // const DUMMY_DATE_LIST: Date[] = [
@@ -12,17 +12,16 @@ import { convertToJSTDate } from "~/lib/utils";
 // ];
 
 type CheckInCalendarProps = {
-  allCheckInDate: SelectCheckIn[];
+  checkInHistory: SelectCheckIn[];
 };
 
 export const CheckInCalendar: React.FC<CheckInCalendarProps> = ({
-  allCheckInDate,
+  checkInHistory,
 }) => {
-  // カレンダーに表示する日付リスト
-  const dateList: Date[] = allCheckInDate.map((checkIn) => {
-    // UTCからJSTに変換する
-    return convertToJSTDate(checkIn.checkInDate);
-  });
+  // カレンダーに表示する日付リスト（UTCから日本時間に変換）
+  const dateList: Date[] = checkInHistory.map((checkIn) =>
+    convertToLocalDate(checkIn.checkInDate, "Asia/Tokyo"),
+  );
 
   return (
     <Calendar
