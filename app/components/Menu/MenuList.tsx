@@ -1,36 +1,31 @@
-"use client";
-
-import { useState } from "react";
-import { Edit, PlusIcon, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import type { SelectTrainingMenu } from "~/db/schema";
+import { MenuCreateModal } from "./MenuCreateModal";
+import { MenuDeleteDialog } from "./MenuDeleteDialog";
+import type { SelectExercise, SelectTrainingMenu } from "~/db/schema";
 
 type MenuListProps = {
-  initialMenus: SelectTrainingMenu[];
+  myMenus: SelectTrainingMenu[];
+  exercises: SelectExercise[];
 };
 
-export function MenuList({ initialMenus = [] }: MenuListProps) {
-  const [menus, setMenus] = useState<SelectTrainingMenu[]>(initialMenus);
-
-  if (menus.length === 0) {
+export const MenuList: React.FC<MenuListProps> = ({ myMenus, exercises }) => {
+  if (myMenus.length === 0) {
     return (
       <div className="py-12 text-center">
         <h3 className="mb-2 text-lg font-medium">メニューがありません</h3>
         <p className="text-muted-foreground mb-4">
           新しいトレーニングメニューを作成しましょう
         </p>
-        <Button variant="outline" className="aspect-square max-sm:p-0">
-          <PlusIcon size={16} aria-hidden="true" />
-          新規作成
-        </Button>
+        <MenuCreateModal exercises={exercises} />
       </div>
     );
   }
 
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-      {menus.map((menu) => (
+      {myMenus.map((menu) => (
         <Card key={menu.id} className="p-2">
           <CardContent className="p-2">
             <div className="flex items-center justify-between">
@@ -55,14 +50,8 @@ export function MenuList({ initialMenus = [] }: MenuListProps) {
                 >
                   <Edit size={20} aria-hidden="true" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-10 w-10"
-                  onClick={() => alert("TODO: メニューを削除します")}
-                >
-                  <Trash size={20} aria-hidden="true" />
-                </Button>
+                {/* メニュー削除ダイアログ */}
+                <MenuDeleteDialog menuId={menu.id} menuName={menu.menuName} />
               </div>
             </div>
           </CardContent>
@@ -70,4 +59,4 @@ export function MenuList({ initialMenus = [] }: MenuListProps) {
       ))}
     </div>
   );
-}
+};
