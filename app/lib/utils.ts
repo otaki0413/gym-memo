@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format, parseISO, isValid } from "date-fns";
 import { TZDate } from "@date-fns/tz";
+import { UTCDate } from "@date-fns/utc";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -31,19 +32,21 @@ export function formatDate(
 
 /**
  * UTCの日付文字列を指定したタイムゾーンに変換する
- * @param utcString - UTC形式の日付文字列（"YYYY-MM-DD HH:MM:SS"の形式が前提）
+ * @param utcString - UTC形式の日付文字列（"YYYY-MM-DDTHH:MM:SSZ"の形式が前提）
  * @param timeZone - タイムゾーン（例："Asia/Tokyo", "UTC"など）
  * @returns タイムゾーンに基づくTZDateオブジェクト
  */
-export function convertToLocalDate(utcString: string, timeZone?: string): Date {
+export function convertToLocalDate(
+  utcString: string,
+  timeZone?: string,
+): TZDate {
   try {
-    // ISO形式への正規化（"YYYY-MM-DD HH:MM:SS" -> "YYYY-MM-DDTHH:MM:SSZ"）
-    const normalized = utcString.replace(" ", "T").replace(/Z?$/, "Z");
-    const utcDate = new Date(normalized);
+    // UTC形式の日付文字列をUTCDateオブジェクトに変換
+    const utcDate = new UTCDate(utcString);
 
     // 日付の有効性チェック
     if (!isValid(utcDate)) {
-      throw new Error("Invalid UTC date string");
+      throw new Error(`Invalid UTC date string: ${utcString}`);
     }
     // タイムゾーンに基づいてTZDateを作成（なければローカルタイムゾーンを使用）
     const zone = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;

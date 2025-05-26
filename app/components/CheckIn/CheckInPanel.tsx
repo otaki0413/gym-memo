@@ -28,9 +28,9 @@ export const CheckInPanel: React.FC<CheckInPanelProps> = ({
   const isSubmitting = fetcher.state !== "idle";
 
   // チェックイン日時をUTCからJSTに変換
-  const checkInTimeJST = checkInInfo?.createdAt
+  const checkInTimeJST = checkInInfo?.checkInAt
     ? format(
-        convertToLocalDate(checkInInfo.createdAt, "Asia/Tokyo"),
+        convertToLocalDate(checkInInfo.checkInAt, "Asia/Tokyo"),
         "M月d日 HH時mm分ss秒",
       )
     : "";

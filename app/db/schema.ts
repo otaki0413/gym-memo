@@ -20,7 +20,10 @@ export const checkInTable = sqliteTable("check_in", {
   userId: text("user_id", { mode: "text" })
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
-  checkInDate: text("check_in_date", { mode: "text" }).notNull(), // 登録時に"YYYY-MM-DD"形式で保存する
+  checkInDate: text("check_in_date", { mode: "text" }).notNull(), // ローカル日時を"YYYY-MM-DD"形式で保存する
+  checkInAt: text("checked_in_at", { mode: "text" })
+    .notNull()
+    .$defaultFn(() => new Date().toISOString()), // UTC日時を"YYYY-MM-DDTHH:mm:ssZ"形式で保存する
   createdAt,
   updatedAt,
 });

@@ -1,5 +1,4 @@
 import { createId } from "@paralleldrive/cuid2";
-import { sql } from "drizzle-orm";
 import { text } from "drizzle-orm/sqlite-core";
 
 export const cuid = () =>
@@ -9,9 +8,9 @@ export const cuid = () =>
 
 export const createdAt = text("created_at")
   .notNull()
-  .default(sql`CURRENT_TIMESTAMP`);
+  .$defaultFn(() => new Date().toISOString());
 
 export const updatedAt = text("updated_at")
   .notNull()
-  .default(sql`CURRENT_TIMESTAMP`)
-  .$onUpdate(() => new Date().toISOString());
+  .$defaultFn(() => new Date().toISOString())
+  .$onUpdateFn(() => new Date().toISOString());

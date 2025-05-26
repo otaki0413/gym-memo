@@ -1,7 +1,6 @@
 import type { Route } from "./+types/checkIn";
 import { and, eq } from "drizzle-orm";
 import { format } from "date-fns";
-import { UTCDate } from "@date-fns/utc";
 import { CheckInCalendar } from "~/components/CheckIn/CheckInCalendar";
 import { CheckInAchievement } from "~/components/CheckIn/CheckInAchievement";
 import { CheckInPanel } from "~/components/CheckIn/CheckInPanel";
@@ -31,8 +30,8 @@ export async function loader({ context, request }: Route.LoaderArgs) {
     .from(checkInTable)
     .where(eq(checkInTable.userId, sessionUser.id));
 
-  // 今日の日付（UTC形式）をフォーマット
-  const fmtToday = format(new UTCDate(), "yyyy-MM-dd");
+  // 今日の日付をフォーマット
+  const fmtToday = format(new Date(), "yyyy-MM-dd");
 
   // 今日のチェックイン情報
   const checkInInfo =
@@ -60,8 +59,8 @@ export async function action({ context, request }: Route.ActionArgs) {
   // DBクライアント作成
   const db = buildDbClient(context.cloudflare.env);
 
-  // 今日の日付（UTC形式）をフォーマット
-  const fmtToday = format(new UTCDate(), "yyyy-MM-dd");
+  // 今日の日付をフォーマット
+  const fmtToday = format(new Date(), "yyyy-MM-dd");
 
   if (intent === "deleteCheckIn") {
     // チェックイン解除処理
@@ -83,7 +82,6 @@ export async function action({ context, request }: Route.ActionArgs) {
     }
   }
 
-  console.log("チェックイン処理を実行します");
   // 1秒待機
   await new Promise((resolve) => setTimeout(resolve, 1000));
   // レコードの存在確認
@@ -108,7 +106,11 @@ export async function action({ context, request }: Route.ActionArgs) {
   try {
     const newCheckIn = await db
       .insert(checkInTable)
-      .values({ userId: sessionUser.id, checkInDate: fmtToday })
+      .values({
+        userId: sessionUser.id,
+        checkInDate: fmtToday, // ローカル時刻
+        checkInAt: new Date().toISOString(), // UTC時刻
+      })
       .returning()
       .get();
     console.log("✅ New checkIn created:", newCheckIn);
